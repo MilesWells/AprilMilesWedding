@@ -1,0 +1,36 @@
+<!doctype html>
+<html ng-app="WeddingApp">
+<head>
+	<title>Welcome</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+</head>
+<body>
+<div class="container" ng-controller="MainCtrl">
+
+	<nav class="navbar navbar-default">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/">Angular Routing Example</a>
+		</div>
+
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="#/"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="#" ng-click="this.logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+		</ul>
+	</nav>
+
+	<ng-view></ng-view>
+
+</div>
+
+<script src="/scripts/angular.min.js"></script>
+<script src="/scripts/angular-resource.min.js"></script>
+<script src="/scripts/angular-route.min.js"></script>
+<script src="/scripts/WeddingApp.js"></script>
+
+<script src="/scripts/controllers/LoginController.js"></script>
+<script src="/scripts/controllers/ProfileController.js"></script>
+<script src="/scripts/controllers/RegisterController.js"></script>
+<script src="/scripts/controllers/MainController.js"></script>
+</body>
+</html>

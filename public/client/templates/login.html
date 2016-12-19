@@ -1,0 +1,27 @@
+<div class="col-sm-6 col-sm-offset-3">
+
+	<h1><span class="fa fa-sign-in"></span> Login</h1>
+
+	<!-- show any messages that come back with authentication -->
+	<div class="alert alert-danger" ng-if="this.message">{{ this.message }}</div>
+
+	<!-- LOGIN FORM -->
+	<form name="loginForm" ng-submit="this.login()" role="form">
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input type="text" class="form-control" ng-model="email" id="email" />
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" class="form-control" ng-model="password" id="password" />
+		</div>
+
+		<button type="submit" ng-disabled="this.hasActiveRequest" class="btn btn-warning btn-lg">Login</button>
+	</form>
+
+	<hr>
+
+	<p>Need an account? <a href="#/register">Register</a></p>
+	<p>Or go <a href="#/">home</a>.</p>
+
+</div>

@@ -1,0 +1,22 @@
+{
+  "name": "node-authentication",
+  "main": "server.js",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-resource": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "bcrypt-nodejs": "0.0.3",
+    "connect-flash": "~0.1.1",
+    "dynogels": "^6.1.0",
+    "ejs": "~0.8.5",
+    "express": "~3.4.4",
+    "joi": "^9.2.0",
+    "passport": "~0.1.17",
+    "passport-facebook": "~1.0.2",
+    "passport-google-oauth": "~0.1.5",
+    "passport-local": "~0.1.6",
+    "passport-twitter": "~1.0.2",
+    "path": "^0.12.7",
+    "uuid": "^2.0.3"
+  }
+}
