@@ -4,22 +4,8 @@
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt-nodejs');
 var uuid = require('uuid');
-var dynogels = require('dynogels');
+var Dynamo = require('./dynamoDB');
 
-//set up AWS credentials
-dynogels.AWS.config.loadFromPath('./public/server/config/credentials.json');
-
-//require models for dynogels
-var User = require('../models/User');
-var InvitationCode = require('../models/InvitationCode');
-
-//create tables for dynogels
-dynogels.createTables(function(error) {
-    if(error) {
-        console.log(error);
-        throw error;
-    }
-});
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -37,7 +23,7 @@ module.exports = function(passport) {
 
     // used to deserialize the user
     passport.deserializeUser(function(user, done) {
-        User.get(user.UserId, function(error, data) {
+        Dynamo.User.get(user.UserId, function(error, data) {
             if(error) {
                 console.log(error, data);
                 throw error;
@@ -60,15 +46,20 @@ module.exports = function(passport) {
         //get parameters form request body
         var confirmPassword = req.body.confirmPassword;
         var accessCode = req.body.accessCode;
+        var name = req.body.name;
+
+        if(!name || name.trim().length == 0) {
+            return done('Name is required');
+        }
 
         //check if passwords match
         if(confirmPassword != password) {
-            return done(null, 'Passwords must match.');
+            return done('Passwords must match.'); // 500 error
         }
 
         new Promise(function(resolve, reject) {
             //check if the access code is valid
-            InvitationCode
+            Dynamo.InvitationCode
                 .get(accessCode, function (error, data) {
                     if (error) {
                         console.log(error);
@@ -97,7 +88,7 @@ module.exports = function(passport) {
         .then(function() {
             return new Promise(function(resolve, reject) {
                 // check if user exists
-                User
+                Dynamo.User
                     .query(email)
                     .usingIndex('Email-index')
                     .exec(function(error, data) {
@@ -122,11 +113,12 @@ module.exports = function(passport) {
         .then(function() {
             return new Promise(function(resolve, reject) {
                 //user does not exist, add user to table
-                User
+                Dynamo.User
                     .create({
                         UserId: uuid.v4(),
                         Email: email,
-                        Password: bcrypt.hashSync(password)
+                        Password: bcrypt.hashSync(password),
+                        Name: name
                     }, function (error, user) {
                         if (error) {
                             console.log(error);
@@ -141,7 +133,7 @@ module.exports = function(passport) {
         .then(function(user) {
             return new Promise(function(resolve) {
                 //successfully added user to table, mark the access code as used
-                InvitationCode
+                Dynamo.InvitationCode
                     .update({
                         InvitationCode: accessCode,
                         Used: true
@@ -158,7 +150,7 @@ module.exports = function(passport) {
             return done(null, user);
         })
         .catch(function(message) {
-            return done(null, message);
+            return done(message); // 500 error
         });
     }));
 
@@ -172,18 +164,16 @@ module.exports = function(passport) {
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) { // callback with email and password from our form
-        User
+        Dynamo.User
             .query(email)
             .usingIndex('Email-index')
             .exec(function(error, data) {
-
                 if(error) {
-                    console.log(error);
-                    return done(null, 'There was an error logging in.');
+                    return done(null, false, 'There was an error logging in.');
                 }
 
                 if(!data || data.length == 0 || !bcrypt.compareSync(password, data.Items[0].attrs.Password)) {
-                    return done(null, 'Invalid username or password');
+                    return done(null, false, 'Invalid username or password');
                 }
 
                 return done(null, data.Items[0].attrs);

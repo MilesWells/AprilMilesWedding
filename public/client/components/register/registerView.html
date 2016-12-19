@@ -1,0 +1,41 @@
+<div class="col-sm-6 col-sm-offset-3">
+
+	<h1><span class="fa fa-sign-in"></span> Register</h1>
+
+	<!-- show any messages that come back with authentication -->
+	<div class="alert alert-danger" ng-if="this.message">{{ this.message }}</div>
+
+	<!-- LOGIN FORM -->
+	<form name="registerForm" ng-submit="this.register()" role="form">
+		<div class="form-group" ng-class="{ 'has-error' : registerForm.name.$invalid && !registerForm.name.$pristine }">
+			<label for="name">Name</label>
+			<input type="text" class="form-control" ng-model="name" id="name" />
+			<p ng-show="registerForm.name.$invalid && !registerForm.name.$pristine" class="help-block">You name is required.</p>
+		</div>
+		<div class="form-group" ng-class="{ 'has-error' : registerForm.name.$invalid && !registerForm.name.$pristine }">
+			<label for="email">Email</label>
+			<input type="email" class="form-control" ng-model="email" id="email" />
+			<p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">You name is required.</p>
+		</div>
+		<div class="form-group">
+			<label for="accessCode" ng-class="{ 'has-error' : registerForm.name.$invalid && !registerForm.name.$pristine }">Access Code</label>
+			<input type="text" class="form-control" ng-model="accessCode" id="accessCode" />
+		</div>
+		<div class="form-group">
+			<label for="password" ng-class="{ 'has-error' : registerForm.name.$invalid && !registerForm.name.$pristine }">Password</label>
+			<input type="password" class="form-control" ng-model="password" id="password" />
+		</div>
+		<div class="form-group" ng-class="{ 'has-error' : registerForm.name.$invalid && !registerForm.name.$pristine }">
+			<label for="confirmPassword">Confirm Password</label>
+			<input type="password" class="form-control" ng-model="confirmPassword" id="confirmPassword" />
+		</div>
+
+		<button type="submit" ng-disabled="this.hasActiveRequest" class="btn btn-warning btn-lg">Register</button>
+	</form>
+
+	<hr>
+
+	<p>Already have an account? <a href="#/login">Login</a></p>
+	<p>Or go <a href="#/">home</a>.</p>
+
+</div>

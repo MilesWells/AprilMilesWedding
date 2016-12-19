@@ -55,21 +55,28 @@ var app = angular.module('WeddingApp', ['ngResource', 'ngRoute'])
         //================================================
         $routeProvider
             .when('/', {
-                templateUrl: '/templates/index.html'
+                templateUrl: '/components/home/homeView.html'
             })
             .when('/profile', {
-                templateUrl: '/templates/profile.html',
+                templateUrl: '/components/profile/profileView.html',
                 controller: 'ProfileCtrl',
                 resolve: {
                     loggedin: checkLoggedin
                 }
             })
+            .when('/requests/songs', {
+                templateUrl: '/components/songRequest/songRequestView.html',
+                controller: 'SongRequestCtrl',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            })
             .when('/login', {
-                templateUrl: '/templates/login.html',
+                templateUrl: '/components/login/loginView.html',
                 controller: 'LoginCtrl'
             })
             .when('/register', {
-                templateUrl: '/templates/register.html',
+                templateUrl: '/components/register/registerView.html',
                 controller: 'RegisterCtrl'
             })
             .otherwise({

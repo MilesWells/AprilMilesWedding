@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
 </head>
 <body>
-<div class="container" ng-controller="MainCtrl">
+<div class="container" ng-controller="HomeCtrl">
 
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
@@ -14,8 +14,11 @@
 		</div>
 
 		<ul class="nav navbar-nav navbar-right">
+			<li><a href="#/profile" ng-show="$root.user"><i class="fa fa-user-circle-o"></i> Profile</a></li>
 			<li><a href="#/"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="#" ng-click="this.logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+			<li><a href="#/requests/songs" ng-show="$root.user"><i class="fa fa-music"></i> Song Requests</a></li>
+			<li><a href="#" ng-show="$root.user" ng-click="this.logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+			<li><a href="#/login" ng-show="!$root.user"><i class="fa fa-sign-in"></i> Login</a></li>
 		</ul>
 	</nav>
 
@@ -28,9 +31,10 @@
 <script src="/scripts/angular-route.min.js"></script>
 <script src="/scripts/WeddingApp.js"></script>
 
-<script src="/scripts/controllers/LoginController.js"></script>
-<script src="/scripts/controllers/ProfileController.js"></script>
-<script src="/scripts/controllers/RegisterController.js"></script>
-<script src="/scripts/controllers/MainController.js"></script>
+<script src="/components/login/loginController.js"></script>
+<script src="/components/profile/profileController.js"></script>
+<script src="/components/register/registerController.js"></script>
+<script src="/components/home/homeController.js"></script>
+<script src="/components/songRequest/songRequestController.js"></script>
 </body>
 </html>

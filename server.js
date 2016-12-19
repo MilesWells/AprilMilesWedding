@@ -27,7 +27,6 @@ app.configure(function() {
 	app.use(passport.session()); // persistent login sessions
 
 	app.use('/scripts', express.static(__dirname + '/public/client/scripts')); //point to scripts folder
-	app.use('/templates', express.static(__dirname + '/public/client/templates'))
 
 });
 

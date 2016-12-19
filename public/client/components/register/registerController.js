@@ -1,6 +1,7 @@
 angular.module('WeddingApp')
     .controller('RegisterCtrl', function($scope, $rootScope, $http, $location) {
         $scope.message = '';
+        $scope.passwordMatch = $scope.password == $scope.confirmPassword;
 
         // Register the login() function
         $scope.register = function(){
@@ -10,7 +11,8 @@ angular.module('WeddingApp')
                 accessCode: $scope.accessCode,
                 username: $scope.email,
                 password: $scope.password,
-                confirmPassword: $scope.confirmPassword
+                confirmPassword: $scope.confirmPassword,
+                name: $scope.name
             })
             .success(function(user){
                 $rootScope.user = user;
@@ -21,8 +23,6 @@ angular.module('WeddingApp')
             .error(function(response){
                 // Error: authentication failed
                 $scope.message = response;
-                $scope.password = '';
-                $scope.confirmPassword = '';
                 $scope.hasActiveRequest = false;
             });
         };

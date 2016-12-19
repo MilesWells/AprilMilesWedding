@@ -9,7 +9,8 @@ module.exports = dynogels.define('User', {
     schema: {
         UserId: joi.string(),
         Email: joi.string().email(),
-        Password: joi.string()
+        Password: joi.string(),
+        Name: joi.string()
     },
 
     indexes: [{
