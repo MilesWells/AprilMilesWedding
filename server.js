@@ -27,7 +27,9 @@ app.configure(function() {
 	app.use(passport.session()); // persistent login sessions
 
 	app.use('/scripts', express.static(__dirname + '/public/client/scripts')); //point to scripts folder
-
+    app.use('/components', express.static(__dirname + '/public/client/components')); //point to components folder
+    app.use('/shared', express.static(__dirname + '/public/client/shared')); //point to shared folder
+    app.use('/styles', express.static(__dirname + '/public/client/styles')); //point to styles folder
 });
 
 // routes ======================================================================

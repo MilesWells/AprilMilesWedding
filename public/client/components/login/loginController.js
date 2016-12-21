@@ -11,14 +11,13 @@ angular.module('WeddingApp')
                 password: $scope.password
             })
             .success(function(user){
-                $rootScope.user = user;
+                $rootScope.setUser(user);
                 // No error: authentication OK
                 $location.url('/profile');
             })
             .error(function(){
                 // Error: authentication failed
                 $scope.message = 'Incorrect username or password.';
-                $scope.password = '';
                 $scope.hasActiveRequest = false;
             });
         };

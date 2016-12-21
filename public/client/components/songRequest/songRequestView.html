@@ -1,9 +1,60 @@
 <div class="page-header text-center">
-    <h1><span class="fa fa-anchor"></span> Song Requests</h1>
+    <h1><span class="fa fa-music"></span> Song Requests</h1>
 </div>
 
 <div class="row">
 
-    Test
+    <div class="col-sm-8 col-sm-offset-2">
+        <button type="button" class="btn btn-info collapsed btn-collapse" data-toggle="collapse" data-target="#songRequestForm"></button>
+        <label>Add Song Request</label>
+        <form name="songRequestForm" ng-submit="this.addSongRequest()" role="form" id="songRequestForm" class="collapse" novalidate>
+            <div class="form-group">
+                <label for="songName">Song Title</label>
+                <input type="text" class="form-control" ng-model="songName" id="songName" name="songName" required />
+                <div ng-messages="songRequestForm.songName.$error" ng-if="(songRequestForm.songName.$touched || songRequestForm.songName.$dirty) && songRequestForm.songName.$invalid">
+                    <div ng-messages-include="components/songRequest/songRequestMessages.html"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="artist">Artist</label>
+                <input type="text" class="form-control" ng-model="artist" id="artist" name="artist" required />
+                <div ng-messages="songRequestForm.artist.$error" ng-if="(songRequestForm.artist.$touched || songRequestForm.artist.$dirty) && songRequestForm.artist.$invalid">
+                    <div ng-messages-include="components/songRequest/songRequestMessages.html"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="album">Album (optional)</label>
+                <input type="text" class="form-control" ng-model="album" id="album" name="album" />
+            </div>
+
+            <button type="submit" ng-disabled="this.hasActiveRequest || !songRequestForm.$valid" class="btn btn-warning btn-lg">Add Song Request</button>
+        </form>
+
+        <table st-table="songRequests" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Song</th>
+                    <th>Artist</th>
+                    <th>Album</th>
+                    <th>Delete</th>
+                </tr>
+            <tr>
+                <th colspan="4"><input st-search="" class="form-control" placeholder="Search requests..." type="text" /></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="request in songRequests">
+                    <td>{{ request.SongName }}</td>
+                    <td>{{ request.Artist }}</td>
+                    <td>{{ request.Album }}</td>
+                    <td>
+                        <button type="button" ng-click="removeSongRequest(request.SongRequestId)" class="btn btn-sm btn-danger">
+                            <i class="fa fa-remove"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>

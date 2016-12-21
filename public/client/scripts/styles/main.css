@@ -1,0 +1,25 @@
+.ng-invalid.ng-dirty {
+  border-color: red;
+  outline-color: red;
+}
+
+.messages {
+  font-size: smaller;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  color: red;
+}
+
+button.btn-collapse.collapsed:before
+{
+  content:'+' ;
+  display:block;
+  width:15px;
+}
+
+button.btn-collapse:before
+{
+  content:'-' ;
+  display:block;
+  width:15px;
+}

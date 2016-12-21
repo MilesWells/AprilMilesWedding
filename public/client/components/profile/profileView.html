@@ -6,13 +6,34 @@
 
 	<div class="col-sm-6">
 		<div class="well">
-			<h3><span class="fa fa-user"></span> Local</h3>
+			<h3>Change Your RSVP</h3>
 
-				<p>
-					<strong>id</strong>: {{ this.user.UserId }}<br/>
-					<strong>email</strong>: {{ this.user.Email }}<br/>
-					<strong>password</strong>: {{ this.user.Password }}
-				</p>
+			<form name="rsvpForm" ng-submit="this.updateRsvp()" role="form" novalidate>
+				<div class="form-group">
+					<br/>
+					<label class="radio-inline">
+						<input type="radio" name="rsvp" value="0" ng-model="rsvp" />
+						No
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="rsvp" value="1" ng-model="rsvp" />
+						Yes - Just Me
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="rsvp" value="2" ng-model="rsvp" />
+						Yes - Plus One
+					</label>
+				</div>
+
+				<button type="submit" class="btn btn-warning btn-lg">Update</button>
+			</form>
+
+		</div>
+	</div>
+
+	<div class="col-sm-6">
+		<div class="well">
+			<h3>Your song requests</h3>
 
 		</div>
 	</div>

@@ -3,7 +3,7 @@
 /**********************************************************************
  * Angular Application
  **********************************************************************/
-var app = angular.module('WeddingApp', ['ngResource', 'ngRoute'])
+var app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', 'toastr', 'smart-table'])
     .config(function($routeProvider, $locationProvider, $httpProvider) {
         //================================================
         // Check if the user is connected
@@ -91,6 +91,18 @@ var app = angular.module('WeddingApp', ['ngResource', 'ngRoute'])
         // Logout function is available in any pages
         $rootScope.logout = function(){
             $rootScope.message = 'Logged out.';
+            $rootScope.setUser(null);
             $http.post('/logout');
         };
-    });
+    })
+    .run(["$rootScope", "UserService",
+        function($rootScope, UserService){
+            $rootScope.getUser = UserService.getUser;
+            $rootScope.setUser = UserService.setUser;
+        }
+    ])
+    .run(["$rootScope", "CommonService",
+        function($rootScope, CommonService){
+            $rootScope.allFalse = CommonService.allFalse;
+        }
+    ]);

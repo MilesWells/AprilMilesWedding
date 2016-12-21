@@ -47,9 +47,11 @@ module.exports = function(passport) {
         var confirmPassword = req.body.confirmPassword;
         var accessCode = req.body.accessCode;
         var name = req.body.name;
+        var rsvp = req.body.rsvp;
+        var plusOne = req.body.plusOne;
 
         if(!name || name.trim().length == 0) {
-            return done('Name is required');
+            return done('Name is required.');
         }
 
         //check if passwords match
@@ -62,7 +64,6 @@ module.exports = function(passport) {
             Dynamo.InvitationCode
                 .get(accessCode, function (error, data) {
                     if (error) {
-                        console.log(error);
                         reject('There was an error registering.');
                         return;
                     }
@@ -98,9 +99,6 @@ module.exports = function(passport) {
                             return;
                         }
 
-                        console.log(JSON.stringify(data));
-                        console.log(!!data && !!data.Items && data.Items.length > 0);
-
                         if(!!data && !!data.Items && data.Items.length > 0) {
                             reject('A user with that email already exists.');
                             return;
@@ -118,7 +116,10 @@ module.exports = function(passport) {
                         UserId: uuid.v4(),
                         Email: email,
                         Password: bcrypt.hashSync(password),
-                        Name: name
+                        InvitationCode: accessCode,
+                        Name: name,
+                        Rsvp: rsvp,
+                        PlusOne: plusOne
                     }, function (error, user) {
                         if (error) {
                             console.log(error);
@@ -169,11 +170,11 @@ module.exports = function(passport) {
             .usingIndex('Email-index')
             .exec(function(error, data) {
                 if(error) {
-                    return done(null, false, 'There was an error logging in.');
+                    return done('There was an error logging in.');
                 }
 
                 if(!data || data.length == 0 || !bcrypt.compareSync(password, data.Items[0].attrs.Password)) {
-                    return done(null, false, 'Invalid username or password');
+                    return done('Invalid username or password');
                 }
 
                 return done(null, data.Items[0].attrs);

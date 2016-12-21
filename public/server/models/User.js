@@ -10,7 +10,10 @@ module.exports = dynogels.define('User', {
         UserId: joi.string(),
         Email: joi.string().email(),
         Password: joi.string(),
-        Name: joi.string()
+        InvitationCode: joi.string(),
+        Name: joi.string(),
+        Rsvp: joi.boolean(),
+        PlusOne: joi.boolean()
     },
 
     indexes: [{

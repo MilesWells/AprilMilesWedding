@@ -6,17 +6,19 @@
 	<div class="alert alert-danger" ng-if="this.message">{{ this.message }}</div>
 
 	<!-- LOGIN FORM -->
-	<form name="loginForm" ng-submit="this.login()" role="form">
+	<form name="loginForm" ng-submit="this.login()" role="form" novalidate>
 		<div class="form-group">
 			<label for="email">Email</label>
-			<input type="text" class="form-control" ng-model="email" id="email" />
+			<input type="email" class="form-control" ng-model="email" id="email" name="email" required />
+			<div ng-messages="loginForm.email.$error" ng-if="(loginForm.email.$touched || loginForm.email.$dirty) && loginForm.email.$invalid"><div ng-messages-include="components/login/loginMessages.html"></div></div>
 		</div>
 		<div class="form-group">
 			<label for="password">Password</label>
-			<input type="password" class="form-control" ng-model="password" id="password" />
+			<input type="password" class="form-control" ng-model="password" id="password" name="password" required />
+			<div ng-messages="loginForm.password.$error" ng-if="(loginForm.password.$touched || loginForm.password.$dirty) && loginForm.password.$invalid"><div ng-messages-include="components/login/loginMessages.html"></div></div>
 		</div>
 
-		<button type="submit" ng-disabled="this.hasActiveRequest" class="btn btn-warning btn-lg">Login</button>
+		<button type="submit" ng-disabled="this.hasActiveRequest || !loginForm.$valid" class="btn btn-warning btn-lg">Login</button>
 	</form>
 
 	<hr>

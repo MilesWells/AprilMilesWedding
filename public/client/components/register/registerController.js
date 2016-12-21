@@ -1,10 +1,14 @@
 angular.module('WeddingApp')
     .controller('RegisterCtrl', function($scope, $rootScope, $http, $location) {
         $scope.message = '';
-        $scope.passwordMatch = $scope.password == $scope.confirmPassword;
+        $scope.rsvp = 2;
 
         // Register the login() function
-        $scope.register = function(){
+        $scope.register = function(isValid){
+            if(!isValid) {
+                return;
+            }
+
             $scope.hasActiveRequest = true;
 
             $http.post('/register', {
@@ -12,10 +16,12 @@ angular.module('WeddingApp')
                 username: $scope.email,
                 password: $scope.password,
                 confirmPassword: $scope.confirmPassword,
-                name: $scope.name
+                name: $scope.name,
+                rsvp: $scope.rsvp != 0,
+                plusOne: $scope.rsvp == 2
             })
             .success(function(user){
-                $rootScope.user = user;
+                $rootScope.setUser(user);
 
                 // No error: authentication OK
                 $location.url('/profile');

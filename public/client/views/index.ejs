@@ -1,24 +1,27 @@
 <!doctype html>
 <html ng-app="WeddingApp">
 <head>
-	<title>Welcome</title>
+	<title>April and Miles Wedding</title>
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+	<link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css" /> <!-- load toastr -->
+
+	<!-- Custom Styles -->
+	<link rel="stylesheet" href="/scripts/styles/main.css">
 </head>
 <body>
 <div class="container" ng-controller="HomeCtrl">
 
 	<nav class="navbar navbar-default">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/">Angular Routing Example</a>
-		</div>
+		<ul class="nav navbar-nav navbar-left">
+			<li><a href="#/"><i class="fa fa-home"></i> Home</a></li>
+		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-			<li><a href="#/profile" ng-show="$root.user"><i class="fa fa-user-circle-o"></i> Profile</a></li>
-			<li><a href="#/"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="#/requests/songs" ng-show="$root.user"><i class="fa fa-music"></i> Song Requests</a></li>
-			<li><a href="#" ng-show="$root.user" ng-click="this.logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
-			<li><a href="#/login" ng-show="!$root.user"><i class="fa fa-sign-in"></i> Login</a></li>
+			<li><a href="#/profile" ng-show="this.user"><i class="fa fa-user"></i> <span ng-bind="this.user.Name"></span></a></li>
+			<li><a href="#/requests/songs" ng-show="this.user"><i class="fa fa-music"></i> Song Requests</a></li>
+			<li><a href="#" ng-show="this.user" ng-click="this.logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+			<li><a href="#/login" ng-show="!this.user"><i class="fa fa-sign-in"></i> Login</a></li>
 		</ul>
 	</nav>
 
@@ -26,15 +29,31 @@
 
 </div>
 
+<!-- Scripts -->
 <script src="/scripts/angular.min.js"></script>
 <script src="/scripts/angular-resource.min.js"></script>
 <script src="/scripts/angular-route.min.js"></script>
+<script src="/scripts/angular-messages.js"></script>
+<script src="/scripts/smart-table.min.js"></script>
+<script src="https://unpkg.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="/scripts/WeddingApp.js"></script>
 
+<!-- Directives -->
+<script src="/shared/compareTo/compareToDirective.js"></script>
+
+<!-- Controllers -->
 <script src="/components/login/loginController.js"></script>
 <script src="/components/profile/profileController.js"></script>
 <script src="/components/register/registerController.js"></script>
 <script src="/components/home/homeController.js"></script>
 <script src="/components/songRequest/songRequestController.js"></script>
+
+<!-- Services -->
+<script src="/components/songRequest/songRequestService.js"></script>
+<script src="/shared/services/commonService.js"></script>
+<script src="/shared/services/userService.js"></script>
+
 </body>
 </html>
