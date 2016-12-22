@@ -5,56 +5,81 @@
 <div class="row">
 
     <div class="col-sm-8 col-sm-offset-2">
-        <button type="button" class="btn btn-info collapsed btn-collapse" data-toggle="collapse" data-target="#songRequestForm"></button>
-        <label>Add Song Request</label>
-        <form name="songRequestForm" ng-submit="this.addSongRequest()" role="form" id="songRequestForm" class="collapse" novalidate>
-            <div class="form-group">
-                <label for="songName">Song Title</label>
-                <input type="text" class="form-control" ng-model="songName" id="songName" name="songName" required />
-                <div ng-messages="songRequestForm.songName.$error" ng-if="(songRequestForm.songName.$touched || songRequestForm.songName.$dirty) && songRequestForm.songName.$invalid">
-                    <div ng-messages-include="components/songRequest/songRequestMessages.html"></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="artist">Artist</label>
-                <input type="text" class="form-control" ng-model="artist" id="artist" name="artist" required />
-                <div ng-messages="songRequestForm.artist.$error" ng-if="(songRequestForm.artist.$touched || songRequestForm.artist.$dirty) && songRequestForm.artist.$invalid">
-                    <div ng-messages-include="components/songRequest/songRequestMessages.html"></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="album">Album (optional)</label>
-                <input type="text" class="form-control" ng-model="album" id="album" name="album" />
-            </div>
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                <span ng-click="collapsed = !collapsed" class="collapsed btn-collapse pointer-cursor" data-toggle="collapse" data-target="#songRequestForm">
+                    <i class="fa fa-plus" ng-if="collapsed"></i>
+                    <i class="fa fa-minus" ng-if="!collapsed"></i>
+                    Add Song Request
+                </span>
+                <form name="songRequestForm" ng-submit="this.addSongRequest()" role="form" id="songRequestForm" class="collapse" novalidate>
+                    <div class="form-group">
+                        <label for="songName">Song Title</label>
+                        <input type="text" class="form-control" ng-model="songName" id="songName" name="songName" required />
+                        <div ng-messages="songRequestForm.songName.$error" ng-if="(songRequestForm.songName.$touched || songRequestForm.songName.$dirty) && songRequestForm.songName.$invalid">
+                            <div ng-messages-include="components/songRequest/songRequestMessages.html"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="artist">Artist</label>
+                        <input type="text" class="form-control" ng-model="artist" id="artist" name="artist" required />
+                        <div ng-messages="songRequestForm.artist.$error" ng-if="(songRequestForm.artist.$touched || songRequestForm.artist.$dirty) && songRequestForm.artist.$invalid">
+                            <div ng-messages-include="components/songRequest/songRequestMessages.html"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="album">Album (optional)</label>
+                        <input type="text" class="form-control" ng-model="album" id="album" name="album" />
+                    </div>
 
-            <button type="submit" ng-disabled="this.hasActiveRequest || !songRequestForm.$valid" class="btn btn-warning btn-lg">Add Song Request</button>
-        </form>
+                    <button type="submit" ng-disabled="this.hasActiveRequest || !songRequestForm.$valid" class="btn btn-warning btn-lg">Add Song Request</button>
 
-        <table st-table="songRequests" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Song</th>
-                    <th>Artist</th>
-                    <th>Album</th>
-                    <th>Delete</th>
-                </tr>
-            <tr>
-                <th colspan="4"><input st-search="" class="form-control" placeholder="Search requests..." type="text" /></th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="request in songRequests">
-                    <td>{{ request.SongName }}</td>
-                    <td>{{ request.Artist }}</td>
-                    <td>{{ request.Album }}</td>
-                    <td>
-                        <button type="button" ng-click="removeSongRequest(request.SongRequestId)" class="btn btn-sm btn-danger">
-                            <i class="fa fa-remove"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    <hr/>
+                </form>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+            <div class="col-sm-8 col-sm-offset-2">
+                <input class="form-control" type="search" placeholder="Search requests..." ng-model="searchQuery" />
+            </div>
+        </div>
+
+        <div class="row repeat-header">
+            <div class="col-sm-4">
+                <span class="pointer-cursor" ng-click="sortType = 'SongName'; sortReverse = !sortReverse">
+                    Song Title
+                    <span ng-show="sortType == 'SongName' && !sortReverse" class="fa fa-caret-up"></span>
+                    <span ng-show="sortType == 'SongName' && sortReverse" class="fa fa-caret-down"></span>
+                </span>
+            </div>
+            <div class="col-sm-3">
+                <span class="pointer-cursor" ng-click="sortType = 'Artist'; sortReverse = !sortReverse">
+                    Artist
+                    <span ng-show="sortType == 'Artist' && !sortReverse" class="fa fa-caret-up"></span>
+                    <span ng-show="sortType == 'Artist' && sortReverse" class="fa fa-caret-down"></span>
+                </span>
+            </div>
+            <div class="col-sm-3">
+                <span class="pointer-cursor" ng-click="sortType = 'Album'; sortReverse = !sortReverse">
+                    Album
+                    <span ng-show="sortType == 'Album' && !sortReverse" class="fa fa-caret-up"></span>
+                    <span ng-show="sortType == 'Album' && sortReverse" class="fa fa-caret-down"></span>
+                </span>
+            </div>
+        </div>
+
+        <div class="row" ng-repeat="request in songRequests | orderBy:sortType:sortReverse | filter:searchQuery">
+            <div class="col-sm-4">{{ request.SongName }}</div>
+            <div class="col-sm-3">{{ request.Artist }}</div>
+            <div class="col-sm-3">{{ request.Album }}</div>
+            <div class="col-sm-2">
+                <button ng-if="request.UserId == userId" type="button" ng-click="removeSongRequest(request.SongRequestId)" class="btn btn-sm btn-danger" style="padding:0px 5px;">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+
     </div>
 
 </div>

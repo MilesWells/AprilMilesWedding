@@ -34,7 +34,17 @@
 	<div class="col-sm-6">
 		<div class="well">
 			<h3>Your song requests</h3>
+			<div class="row repeat-header">
+				<div class="col-sm-4">Song Title</div>
+				<div class="col-sm-3">Artist</div>
+				<div class="col-sm-3">Album</div>
+			</div>
 
+			<div class="row" ng-repeat="request in songRequests">
+				<div class="col-sm-4">{{ request.SongName }}</div>
+				<div class="col-sm-3">{{ request.Artist }}</div>
+				<div class="col-sm-3">{{ request.Album }}</div>
+			</div>
 		</div>
 	</div>
 

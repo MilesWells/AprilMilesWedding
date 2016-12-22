@@ -10,16 +10,11 @@
   color: red;
 }
 
-button.btn-collapse.collapsed:before
-{
-  content:'+' ;
-  display:block;
-  width:15px;
+.repeat-header {
+  font-weight: bold;
 }
 
-button.btn-collapse:before
-{
-  content:'-' ;
-  display:block;
-  width:15px;
+.pointer-cursor {
+  cursor: pointer;
+  user-select: none;
 }

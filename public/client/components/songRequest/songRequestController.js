@@ -2,6 +2,14 @@ angular.module('WeddingApp')
     .controller('SongRequestCtrl', function($scope, $rootScope, SongRequestService) {
         var self = this;
 
+        $scope.userId = $rootScope.getUser().UserId;
+
+        $scope.collapsed = true;
+
+        $scope.sortType = 'SongName';
+        $scope.sortReverse = false;
+        $scope.searchQuery = '';
+
         self.refreshList = function() {
             SongRequestService.getAllRequests()
                 .then(function(result) {

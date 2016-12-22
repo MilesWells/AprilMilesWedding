@@ -45,7 +45,7 @@ angular.module('WeddingApp').factory('SongRequestService', [
         }
 
         function getMyRequests(userId) {
-            return $http.get('/songRequests', { userId: userId })
+            return $http.get('/songRequests/' + userId)
                 .success(function(data) {
                     return data;
                 })

@@ -1,7 +1,12 @@
 angular.module('WeddingApp')
-    .controller('ProfileCtrl', function($scope, $rootScope, $http, toastr) {
+    .controller('ProfileCtrl', function($scope, $rootScope, $http, toastr, SongRequestService) {
         $scope.user = $rootScope.getUser();
-        $scope.rsvp = $scope.user.Rsvp + $scope.user.PlusOne
+        $scope.rsvp = $scope.user.Rsvp + $scope.user.PlusOne;
+
+        SongRequestService.getMyRequests($scope.user.UserId)
+            .then(function(result) {
+                $scope.songRequests = result.data.Items;
+            });
 
         $scope.updateRsvp = function() {
             $scope.user.Rsvp = $scope.rsvp != 0;

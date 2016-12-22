@@ -26,7 +26,7 @@ module.exports = function(app, passport) {
 	app.put('/me', isAuthenticated, function(req, res) {
 		Dynamo.User
 			.update(req.body.user, function(error, user) {
-				if(err) {
+				if(error) {
 					res.status(500).send(error);
 				} else {
 					res.send(user);
@@ -67,6 +67,19 @@ module.exports = function(app, passport) {
                 		res.send(data);
 					}
 				});
+		})
+		.get('/songRequests/:userId', isAuthenticated, function(req, res) {
+            Dynamo.SongRequest
+                .query(req.params.userId)
+                .usingIndex('UserId-index')
+                .exec(function(error, data) {
+                    if(error) {
+                    	console.log(error);
+                        res.status(500).send(error);
+                    } else {
+                        res.send(data);
+                    }
+                });
 		})
 		.delete('/songRequests/:songRequestId', isAuthenticated, function(req, res) {
 			Dynamo.SongRequest
