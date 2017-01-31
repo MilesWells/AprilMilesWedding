@@ -48,6 +48,12 @@
 			<input type="password" compare-to="this.password" class="form-control" ng-model="confirmPassword" id="confirmPassword" name="confirmPassword" required />
 			<div ng-messages="registerForm.confirmPassword.$error" ng-if="(registerForm.confirmPassword.$touched || registerForm.confirmPassword.$dirty) && registerForm.confirmPassword.$invalid"><div ng-messages-include="components/register/registerMessages.html"></div></div>
 		</div>
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="subscribe" id="subscribe" name="subscribe" />
+				<b>I agree to receive email updates about the wedding.</b>
+			</label>
+		</div>
 
 		<button type="submit" ng-disabled="this.hasActiveRequest || !registerForm.$valid" class="btn btn-warning btn-lg">Register</button>
 	</form>

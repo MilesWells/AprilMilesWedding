@@ -8,6 +8,7 @@ module.exports = dynogels.define('User', {
 
     schema: {
         UserId: joi.string(),
+        isAdmin: joi.boolean(),
         Email: joi.string().email(),
         Password: joi.string(),
         InvitationCode: joi.string(),

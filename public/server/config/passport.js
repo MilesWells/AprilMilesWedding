@@ -5,7 +5,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcrypt-nodejs');
 var uuid = require('uuid');
 var Dynamo = require('./dynamoDB');
-
+var Mailchimp = require('mailchimp-api-v3');
+var Credentials = require('./credentials.json');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -49,6 +50,8 @@ module.exports = function(passport) {
         var name = req.body.name;
         var rsvp = req.body.rsvp;
         var plusOne = req.body.plusOne;
+        var optIn = req.body.subscribe;
+        var mailchimp = new Mailchimp(Credentials.mailchimp.apiKey);
 
         if(!name || name.trim().length == 0) {
             return done('Name is required.');
@@ -114,6 +117,7 @@ module.exports = function(passport) {
                 Dynamo.User
                     .create({
                         UserId: uuid.v4(),
+                        isAdmin: false,
                         Email: email,
                         Password: bcrypt.hashSync(password),
                         InvitationCode: accessCode,
@@ -145,6 +149,29 @@ module.exports = function(passport) {
 
                         resolve(user);
                     });
+            });
+        })
+        .then(function(user) {
+            return new Promise(function(resolve) {
+                //access code marked as used, subscribe user to mailchimp if opted in
+                if(optIn) {
+                    mailchimp.post(Credentials.mailchimp.path, {
+                        members: [{
+                            email_address: email,
+                            email_type: 'html',
+                            status: 'subscribed',
+                            merge_fields: {
+                                FNAME: name
+                            }
+                        }]
+                    })
+                    .catch(function(error) {
+                        console.log('Mailchimp error: ' + JSON.stringify(error));
+                        //swallow mailchimp error
+                    });
+                }
+
+                resolve(user);
             });
         })
         .then(function(user) {
