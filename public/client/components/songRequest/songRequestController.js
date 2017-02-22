@@ -1,6 +1,6 @@
 angular.module('WeddingApp')
-    .controller('SongRequestCtrl', function($scope, $rootScope, SongRequestService) {
-        var self = this;
+    .controller('SongRequestCtrl', function ($scope, $rootScope, SongRequestService) {
+        let self = this;
 
         $scope.userId = $rootScope.getUser().UserId;
 
@@ -12,7 +12,7 @@ angular.module('WeddingApp')
 
         self.refreshList = function() {
             SongRequestService.getAllRequests()
-                .then(function(result) {
+                .then(result => {
                     $scope.songRequests = result.data.Items;
                 });
         };
@@ -23,7 +23,7 @@ angular.module('WeddingApp')
         };
 
         $scope.addSongRequest = function() {
-            var user = $rootScope.getUser();
+            let user = $rootScope.getUser();
             SongRequestService.addRequest({
                 UserId: user.UserId,
                 SongName: $scope.songName,

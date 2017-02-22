@@ -1,8 +1,8 @@
 angular.module('WeddingApp').factory('UserService', [
     '$window', '$rootScope',
-    function($window, $rootScope){
+    ($window, $rootScope) => {
 
-        var user;
+        let user;
 
         return {
             getUser: getUser,

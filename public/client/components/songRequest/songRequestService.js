@@ -1,6 +1,5 @@
 angular.module('WeddingApp').factory('SongRequestService', [
-    '$http', 'toastr',
-    function($http, toastr){
+    '$http', 'toastr', ($http, toastr) => {
 
         return {
             getAllRequests: getAllRequests,
@@ -11,10 +10,8 @@ angular.module('WeddingApp').factory('SongRequestService', [
 
         function getAllRequests() {
             return $http.get('/songRequests')
-                .success(function(data) {
-                    return data;
-                })
-                .error(function(error) {
+                .success(data => data)
+                .error(error => {
                     toastr.error('Unable to retrieve the song requests.');
                     return error;
                 });
@@ -22,11 +19,11 @@ angular.module('WeddingApp').factory('SongRequestService', [
 
         function addRequest(songRequest) {
             return $http.post('/songRequests', { songRequest: songRequest })
-                .success(function() {
+                .success(() => {
                     toastr.success('Your song request has been added!');
                     return null;
                 })
-                .error(function(error) {
+                .error(error => {
                     toastr.error('Unable to add your song request.');
                     return error;
                 });
@@ -34,11 +31,11 @@ angular.module('WeddingApp').factory('SongRequestService', [
 
         function deleteRequest(songRequestId) {
             return $http.delete('/songRequests/' + songRequestId)
-                .success(function() {
+                .success(() => {
                     toastr.success('Your song request has been removed!');
                     return null;
                 })
-                .error(function(error) {
+                .error(error => {
                     toastr.error('Unable to remove your song request.');
                     return error;
                 });
@@ -46,10 +43,8 @@ angular.module('WeddingApp').factory('SongRequestService', [
 
         function getMyRequests(userId) {
             return $http.get('/songRequests/' + userId)
-                .success(function(data) {
-                    return data;
-                })
-                .error(function(error) {
+                .success(data => data)
+                .error(error => {
                     toastr.error('Unable to retrieve the song requests.');
                     return error;
                 });

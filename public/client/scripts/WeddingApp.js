@@ -3,17 +3,17 @@
 /**********************************************************************
  * Angular Application
  **********************************************************************/
-var app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', 'toastr'])
-    .config(function($routeProvider, $locationProvider, $httpProvider) {
+let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', 'toastr', 'textAngular'])
+    .config(($routeProvider, $locationProvider, $httpProvider) => {
         //================================================
         // Check if the user is connected
         //================================================
-        var checkLoggedin = function($q, $timeout, $http, $location, $rootScope){
+        let checkLoggedin = function($q, $timeout, $http, $location, $rootScope){
             // Initialize a new promise
-            var deferred = $q.defer();
+            let deferred = $q.defer();
 
             // Make an AJAX call to check if the user is logged in
-            $http.get('/loggedin').success(function(user){
+            $http.get('/loggedin').success(user => {
                 // Authenticated
                 if (user !== '0')
                 /*$timeout(deferred.resolve, 0);*/
@@ -35,7 +35,7 @@ var app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', '
         //================================================
         // Add an interceptor for AJAX errors
         //================================================
-        $httpProvider.interceptors.push(function($q, $location) {
+        $httpProvider.interceptors.push(($q, $location) => {
             return {
                 response: function(response) {
                     // do something on success
@@ -64,6 +64,13 @@ var app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', '
                     loggedin: checkLoggedin
                 }
             })
+            .when('/blog/new', {
+                templateUrl: '/components/blogPost/blogPostView.html',
+                controller: 'BlogPostCtrl',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            })
             .when('/requests/songs', {
                 templateUrl: '/components/songRequest/songRequestView.html',
                 controller: 'SongRequestCtrl',
@@ -85,7 +92,7 @@ var app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', '
         //================================================
 
     }) // end of config()
-    .run(function($rootScope, $http){
+    .run(($rootScope, $http) => {
         $rootScope.message = '';
 
         // Logout function is available in any pages
@@ -96,13 +103,13 @@ var app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', '
         };
     })
     .run(["$rootScope", "UserService",
-        function($rootScope, UserService){
+        ($rootScope, UserService) => {
             $rootScope.getUser = UserService.getUser;
             $rootScope.setUser = UserService.setUser;
         }
     ])
     .run(["$rootScope", "CommonService",
-        function($rootScope, CommonService){
+        ($rootScope, CommonService) => {
             $rootScope.allFalse = CommonService.allFalse;
         }
     ]);

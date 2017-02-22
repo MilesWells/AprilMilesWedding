@@ -1,11 +1,11 @@
 angular.module('WeddingApp')
-    .controller('RegisterCtrl', function($scope, $rootScope, $http, $location) {
+    .controller('RegisterCtrl', function ($scope, $rootScope, $http, $location) {
         $scope.message = '';
         $scope.rsvp = 2;
         $scope.subscribe = true;
 
         // Register the login() function
-        $scope.register = function(isValid){
+        $scope.register = function(isValid) {
             if(!isValid) {
                 return;
             }
@@ -22,13 +22,13 @@ angular.module('WeddingApp')
                 plusOne: $scope.rsvp == 2,
                 subscribe: $scope.subscribe
             })
-            .success(function(user){
+            .success(user => {
                 $rootScope.setUser(user);
 
                 // No error: authentication OK
                 $location.url('/profile');
             })
-            .error(function(response){
+            .error(response => {
                 // Error: authentication failed
                 $scope.message = response;
                 $scope.hasActiveRequest = false;

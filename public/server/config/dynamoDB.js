@@ -1,15 +1,16 @@
-var dynogels = require('dynogels');
+let dynogels = require('dynogels');
 
 //set up AWS credentials
 dynogels.AWS.config.loadFromPath('./public/server/config/credentials.json');
 
 //require models for dynogels
-var User = require('../models/User');
-var InvitationCode = require('../models/InvitationCode');
-var SongRequest = require('../models/SongRequest');
+let User = require('../models/User');
+let InvitationCode = require('../models/InvitationCode');
+let SongRequest = require('../models/SongRequest');
+let BlogPost = require('../models/blogPosts');
 
 //create tables for dynogels
-dynogels.createTables(function(error) {
+dynogels.createTables((error) => {
     if(error) {
         console.log(error);
         throw error;
@@ -19,5 +20,6 @@ dynogels.createTables(function(error) {
 module.exports = {
     User: User,
     InvitationCode: InvitationCode,
-    SongRequest: SongRequest
+    SongRequest: SongRequest,
+    BlogPost: BlogPost
 };

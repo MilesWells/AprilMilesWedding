@@ -1,12 +1,12 @@
 // config/passport.js
 
 // load all the things we need
-var LocalStrategy = require('passport-local').Strategy;
-var bcrypt = require('bcrypt-nodejs');
-var uuid = require('uuid');
-var Dynamo = require('./dynamoDB');
-var Mailchimp = require('mailchimp-api-v3');
-var Credentials = require('./credentials.json');
+let LocalStrategy = require('passport-local').Strategy;
+let bcrypt = require('bcrypt-nodejs');
+let uuid = require('uuid');
+let Dynamo = require('./dynamoDB');
+let Mailchimp = require('mailchimp-api-v3');
+let Credentials = require('./credentials.json');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -18,13 +18,13 @@ module.exports = function(passport) {
     // passport needs ability to serialize and unserialize users out of session
 
     // used to serialize the user for the session
-    passport.serializeUser(function(user, done) {
+    passport.serializeUser((user, done) => {
         done(null, user);
     });
 
     // used to deserialize the user
-    passport.deserializeUser(function(user, done) {
-        Dynamo.User.get(user.UserId, function(error, data) {
+    passport.deserializeUser((user, done) => {
+        Dynamo.User.get(user.UserId, (error, data) => {
             if(error) {
                 console.log(error, data);
                 throw error;
@@ -42,16 +42,15 @@ module.exports = function(passport) {
 
     passport.use('local-register', new LocalStrategy({
         passReqToCallback : true // allows us to pass back the entire request to the callback
-    },
-    function(req, email, password, done) {
+    }, (req, email, password, done) => {
         //get parameters form request body
-        var confirmPassword = req.body.confirmPassword;
-        var accessCode = req.body.accessCode;
-        var name = req.body.name;
-        var rsvp = req.body.rsvp;
-        var plusOne = req.body.plusOne;
-        var optIn = req.body.subscribe;
-        var mailchimp = new Mailchimp(Credentials.mailchimp.apiKey);
+        let confirmPassword = req.body.confirmPassword;
+        let accessCode = req.body.accessCode;
+        let name = req.body.name;
+        let rsvp = req.body.rsvp;
+        let plusOne = req.body.plusOne;
+        let optIn = req.body.subscribe;
+        let mailchimp = new Mailchimp(Credentials.mailchimp.apiKey);
 
         if(!name || name.trim().length == 0) {
             return done('Name is required.');
@@ -62,10 +61,10 @@ module.exports = function(passport) {
             return done('Passwords must match.'); // 500 error
         }
 
-        new Promise(function(resolve, reject) {
+        new Promise((resolve, reject) => {
             //check if the access code is valid
             Dynamo.InvitationCode
-                .get(accessCode, function (error, data) {
+                .get(accessCode, (error, data) => {
                     if (error) {
                         reject('There was an error registering.');
                         return;
@@ -89,13 +88,13 @@ module.exports = function(passport) {
                     resolve();
                 })
         })
-        .then(function() {
-            return new Promise(function(resolve, reject) {
+        .then(() => {
+            return new Promise((resolve, reject) => {
                 // check if user exists
                 Dynamo.User
                     .query(email)
                     .usingIndex('Email-index')
-                    .exec(function(error, data) {
+                    .exec((error, data) => {
                         if(error) {
                             console.log(error);
                             reject('There was an error registering.');
@@ -111,8 +110,8 @@ module.exports = function(passport) {
                     });
             });
         })
-        .then(function() {
-            return new Promise(function(resolve, reject) {
+        .then(() => {
+            return new Promise((resolve, reject) => {
                 //user does not exist, add user to table
                 Dynamo.User
                     .create({
@@ -124,7 +123,7 @@ module.exports = function(passport) {
                         Name: name,
                         Rsvp: rsvp,
                         PlusOne: plusOne
-                    }, function (error, user) {
+                    }, (error, user) => {
                         if (error) {
                             console.log(error);
                             reject('There was an error registering.');
@@ -135,14 +134,14 @@ module.exports = function(passport) {
                     });
             });
         })
-        .then(function(user) {
-            return new Promise(function(resolve) {
+        .then(user => {
+            return new Promise((resolve) => {
                 //successfully added user to table, mark the access code as used
                 Dynamo.InvitationCode
                     .update({
                         InvitationCode: accessCode,
                         Used: true
-                    }, function (error) {
+                    }, (error) => {
                         if (error) {
                             console.log(error);
                         }
@@ -151,8 +150,8 @@ module.exports = function(passport) {
                     });
             });
         })
-        .then(function(user) {
-            return new Promise(function(resolve) {
+        .then(user => {
+            return new Promise(resolve => {
                 //access code marked as used, subscribe user to mailchimp if opted in
                 if(optIn) {
                     mailchimp.post(Credentials.mailchimp.path, {
@@ -165,7 +164,7 @@ module.exports = function(passport) {
                             }
                         }]
                     })
-                    .catch(function(error) {
+                    .catch(error => {
                         console.log('Mailchimp error: ' + JSON.stringify(error));
                         //swallow mailchimp error
                     });
@@ -174,12 +173,8 @@ module.exports = function(passport) {
                 resolve(user);
             });
         })
-        .then(function(user) {
-            return done(null, user);
-        })
-        .catch(function(message) {
-            return done(message); // 500 error
-        });
+        .then(user => done(null, user))
+        .catch(message => done(message));
     }));
 
     // =========================================================================
@@ -191,11 +186,11 @@ module.exports = function(passport) {
     passport.use(new LocalStrategy({
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
-    function(req, email, password, done) { // callback with email and password from our form
+    (req, email, password, done) => { // callback with email and password from our form
         Dynamo.User
             .query(email)
             .usingIndex('Email-index')
-            .exec(function(error, data) {
+            .exec((error, data) => {
                 if(error) {
                     return done('There was an error logging in.');
                 }

@@ -1,10 +1,10 @@
 angular.module('WeddingApp')
-    .controller('ProfileCtrl', function($scope, $rootScope, $http, toastr, SongRequestService) {
+    .controller('ProfileCtrl', function ($scope, $rootScope, $http, toastr, SongRequestService) {
         $scope.user = $rootScope.getUser();
         $scope.rsvp = $scope.user.Rsvp + $scope.user.PlusOne;
 
         SongRequestService.getMyRequests($scope.user.UserId)
-            .then(function(result) {
+            .then(result => {
                 $scope.songRequests = result.data.Items;
             });
 
@@ -13,12 +13,12 @@ angular.module('WeddingApp')
             $scope.user.PlusOne = $scope.rsvp == 2;
 
             $http.put('/me', { user: $scope.user })
-                .success(function(user) {
+                .success(user => {
                     $rootScope.setUser(user);
                     toastr.success('Your RSVP has been updated!')
                 })
-                .error(function() {
+                .error(() => {
                     toastr.error('There was a problem updating your RSVP.')
-                })
+                });
         };
     });

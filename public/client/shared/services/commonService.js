@@ -1,11 +1,11 @@
-angular.module('WeddingApp').factory('CommonService', function(){
+angular.module('WeddingApp').factory('CommonService', () => {
 
         return {
             allFalse: allFalse
         };
 
         function allFalse(object) {
-            for (var i in object) {
+            for (let i in object) {
                 if (object[i] === true) {
                     return false;
                 }

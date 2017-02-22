@@ -1,29 +1,39 @@
+<!--bootstrap customization: http://getbootstrap.com/customize/?id=692399191e3d1109a63d876df18e3da8-->
+
 <!doctype html>
-<html ng-app="WeddingApp">
+<html ng-app="WeddingApp" class="full">
 <head>
 	<title>April and Miles Wedding</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+	<link rel="stylesheet" href="/scripts/styles/bootstrap.min.css">
+	<link rel="stylesheet" href="/scripts/styles/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-	<link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css" /> <!-- load toastr -->
+	<link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css"> <!-- load toastr -->
+	<link rel="stylesheet" href="http://textangular.com/dist/textAngular.css" type="text/css"><!-- load textAngular -->
+	<link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet"> <!-- <custom font -->
 
 	<!-- Custom Styles -->
 	<link rel="stylesheet" href="/scripts/styles/main.css">
 </head>
-<body>
-<div class="container" ng-controller="HomeCtrl">
+<body ng-controller="HomeCtrl" ng-class="{'landing-bg': !showNavBar}">
+<div class="container-fluid">
 
-	<nav class="navbar navbar-default">
-		<ul class="nav navbar-nav navbar-left">
-			<li><a href="#/"><i class="fa fa-home"></i> Home</a></li>
-		</ul>
+	<div class="row" ng-if="showNavBar">
+		<nav class="navbar navbar-default">
+			<div class=" col-sm-10 col-sm-offset-1">
+				<ul class="nav navbar-nav navbar-left">
+					<li><a href="#/"><i class="fa fa-home"></i> Home</a></li>
+				</ul>
 
-		<ul class="nav navbar-nav navbar-right">
-			<li><a href="#/profile" ng-show="this.user"><i class="fa fa-user"></i> <span ng-bind="this.user.Name"></span></a></li>
-			<li><a href="#/requests/songs" ng-show="this.user"><i class="fa fa-music"></i> Song Requests</a></li>
-			<li><a href="#" ng-show="this.user" ng-click="this.logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
-			<li><a href="#/login" ng-show="!this.user"><i class="fa fa-sign-in"></i> Login</a></li>
-		</ul>
-	</nav>
+				<ul class="nav navbar-nav navbar-right">
+					<li ng-if="user"><a href="#/profile"><i class="fa fa-user"></i> <span ng-bind="user.Name"></span></a></li>
+					<li ng-if="user"><a href="#/requests/songs"><i class="fa fa-music"></i> Song Requests</a></li>
+					<li ng-if="user.isAdmin"><a href="#/blog/new"><i class="fa fa-pencil-square-o"></i> New Blog Post</a></li>
+					<li ng-if="user"><a href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+					<li ng-if="!user"><a href="#/login"><i class="fa fa-sign-in"></i> Login</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
 
 	<ng-view></ng-view>
 
@@ -36,7 +46,10 @@
 <script src="/scripts/angular-messages.js"></script>
 <script src="https://unpkg.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="/scripts/bootstrap.min.js"></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular-rangy.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular-sanitize.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular.min.js'></script>
 <script src="/scripts/WeddingApp.js"></script>
 
 <!-- Directives -->
@@ -45,12 +58,14 @@
 <!-- Controllers -->
 <script src="/components/login/loginController.js"></script>
 <script src="/components/profile/profileController.js"></script>
+<script src="/components/blogPost/blogPostController.js"></script>
 <script src="/components/register/registerController.js"></script>
 <script src="/components/home/homeController.js"></script>
 <script src="/components/songRequest/songRequestController.js"></script>
 
 <!-- Services -->
 <script src="/components/songRequest/songRequestService.js"></script>
+<script src="/components/blogPost/blogPostService.js"></script>
 <script src="/shared/services/commonService.js"></script>
 <script src="/shared/services/userService.js"></script>
 
