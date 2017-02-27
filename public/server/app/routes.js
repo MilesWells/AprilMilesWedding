@@ -1,5 +1,5 @@
-let Dynamo = require('../config/dynamoDB');
-let uuid = require('uuid');
+const Dynamo = require('../config/dynamoDB');
+const uuid = require('uuid');
 
 module.exports = function(app, passport) {
 	// index route
@@ -14,9 +14,13 @@ module.exports = function(app, passport) {
 
 	// route to test if the user is logged in or not
 	app.get('/loggedin', function(req, res) {
-		console.log(req.user);
 		res.send(req.isAuthenticated() ? req.user : '0');
 	});
+
+    // route to test if the user is an admin
+    app.get('/isadmin', function(req, res) {
+        res.send((req.isAuthenticated() && req.user.attrs.isAdmin) ? req.user : '0');
+    });
 
 	// register route
 	app.post('/register', passport.authenticate('local-register'), (req, res) => {
@@ -96,6 +100,7 @@ module.exports = function(app, passport) {
 				});
 		});
 
+	// Blog Post Endpoints
 	app
 		.post('/blogPosts', hasAdminAccess, (req, res) => {
             let blogPost = req.body.blogPost;
@@ -156,6 +161,25 @@ module.exports = function(app, passport) {
                     }
                 });
         });
+
+	// Admin Control Panel Endpoints
+	app
+		.post('/admin/accessCodes', hasAdminAccess, (req, res) => {
+			let newCode = {
+				Used: false,
+				InvitationCode: uuid.v4().substr(0, 7)
+			};
+
+			Dynamo.InvitationCode
+				.create(newCode, (error, code) => {
+                if(error) {
+                    console.log(error);
+                    res.status(500).send(error);
+                } else {
+                    res.send(code);
+                }
+            });
+		});
 
     function isAuthenticated(req, res, next) {
 

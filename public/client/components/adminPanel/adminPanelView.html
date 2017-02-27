@@ -1,0 +1,22 @@
+<div class="page-header text-center">
+    <h1>Admin Control Panel</h1>
+</div>
+
+<div class="row col-sm-10 col-sm-offset-1">
+
+    <div class="col-sm-6">
+        <div class="well">
+            <h3>Generate Access Codes</h3>
+
+            <plus-minus-input input-value="numberOfCodes" min-value="1"></plus-minus-input>
+
+            <div class="text-center">
+                <span ng-click="generateCodes()" class="btn btn-danger">Generate</span>
+            </div>
+
+            <div class="text-center">
+                <p ng-repeat="code in newCodes">{{:: code.InvitationCode }}</p>
+            </div>
+        </div>
+    </div>
+</div>

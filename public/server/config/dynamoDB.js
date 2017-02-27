@@ -1,13 +1,13 @@
-let dynogels = require('dynogels');
+const dynogels = require('dynogels');
 
 //set up AWS credentials
 dynogels.AWS.config.loadFromPath('./public/server/config/credentials.json');
 
 //require models for dynogels
-let User = require('../models/User');
-let InvitationCode = require('../models/InvitationCode');
-let SongRequest = require('../models/SongRequest');
-let BlogPost = require('../models/blogPosts');
+const User = require('../models/User');
+const InvitationCode = require('../models/InvitationCode');
+const SongRequest = require('../models/SongRequest');
+const BlogPost = require('../models/blogPosts');
 
 //create tables for dynogels
 dynogels.createTables((error) => {

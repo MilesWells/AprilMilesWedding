@@ -1,12 +1,12 @@
 // config/passport.js
 
 // load all the things we need
-let LocalStrategy = require('passport-local').Strategy;
-let bcrypt = require('bcrypt-nodejs');
-let uuid = require('uuid');
-let Dynamo = require('./dynamoDB');
-let Mailchimp = require('mailchimp-api-v3');
-let Credentials = require('./credentials.json');
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcrypt-nodejs');
+const uuid = require('uuid');
+const Dynamo = require('./dynamoDB');
+const Mailchimp = require('mailchimp-api-v3');
+const Credentials = require('./credentials.json');
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -44,13 +44,13 @@ module.exports = function(passport) {
         passReqToCallback : true // allows us to pass back the entire request to the callback
     }, (req, email, password, done) => {
         //get parameters form request body
-        let confirmPassword = req.body.confirmPassword;
-        let accessCode = req.body.accessCode;
-        let name = req.body.name;
-        let rsvp = req.body.rsvp;
-        let plusOne = req.body.plusOne;
-        let optIn = req.body.subscribe;
-        let mailchimp = new Mailchimp(Credentials.mailchimp.apiKey);
+        const confirmPassword = req.body.confirmPassword;
+        const accessCode = req.body.accessCode;
+        const name = req.body.name;
+        const rsvp = req.body.rsvp;
+        const plusOne = req.body.plusOne;
+        const optIn = req.body.subscribe;
+        const mailchimp = new Mailchimp(Credentials.mailchimp.apiKey);
 
         if(!name || name.trim().length == 0) {
             return done('Name is required.');

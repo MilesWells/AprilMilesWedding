@@ -33,6 +33,32 @@ let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', '
         //================================================
 
         //================================================
+        // Check if the user is an admin
+        //================================================
+        let checkAdminStatus = function($q, $timeout, $http, $location, $rootScope){
+            // Initialize a new promise
+            let deferred = $q.defer();
+
+            // Make an AJAX call to check if the user is logged in
+            $http.get('/isadmin').success(user => {
+                // Authenticated
+                if (user !== '0')
+                /*$timeout(deferred.resolve, 0);*/
+                    deferred.resolve();
+
+                // Not Authenticated
+                else {
+                    //$timeout(function(){deferred.reject();}, 0);
+                    deferred.reject();
+                    $location.url('/');
+                }
+            });
+
+            return deferred.promise;
+        };
+        //================================================
+
+        //================================================
         // Add an interceptor for AJAX errors
         //================================================
         $httpProvider.interceptors.push(($q, $location) => {
@@ -68,7 +94,7 @@ let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', '
                 templateUrl: '/components/blogPost/blogPostView.html',
                 controller: 'BlogPostCtrl',
                 resolve: {
-                    loggedin: checkLoggedin
+                    loggedin: checkAdminStatus
                 }
             })
             .when('/requests/songs', {
@@ -76,6 +102,13 @@ let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', '
                 controller: 'SongRequestCtrl',
                 resolve: {
                     loggedin: checkLoggedin
+                }
+            })
+            .when('/admin', {
+                templateUrl: '/components/adminPanel/adminPanelView.html',
+                controller: 'AdminPanelCtrl',
+                resolve: {
+                    loggedin: checkAdminStatus
                 }
             })
             .when('/login', {
@@ -112,4 +145,13 @@ let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', '
         ($rootScope, CommonService) => {
             $rootScope.allFalse = CommonService.allFalse;
         }
-    ]);
+    ])
+    .filter('range', function() {
+        return function(input, from, to) {
+            const min = parseInt(from);
+            const max = parseInt(to);
+            for (let i = min; i <= max; i++)
+                input.push(i);
+            return input;
+        };
+    });
