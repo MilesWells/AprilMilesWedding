@@ -126,7 +126,7 @@ module.exports = function(app, passport) {
 					} else {
 						res.send(data);
 					}
-				})
+				});
 		})
         .get('/blogPosts/:blogPostId', isAuthenticated, (req, res) => {
             Dynamo.BlogPost
@@ -149,10 +149,10 @@ module.exports = function(app, passport) {
                     } else {
                         res.send(blogPost);
                     }
-				})
+				});
 		})
         .delete('/blogPosts/:blogPostId', hasAdminAccess, (req, res) => {
-            Dynamo.SongRequest
+            Dynamo.BlogPost
                 .destroy(req.params.blogPostId, function(error) {
                     if(error) {
                         res.status(500).send(error);
@@ -179,6 +179,18 @@ module.exports = function(app, passport) {
                     res.send(code);
                 }
             });
+		})
+		.get('/admin/users', hasAdminAccess, (req, res) => {
+            Dynamo.User
+                .scan()
+                .loadAll()
+                .exec((error, data) => {
+                    if(error) {
+                        res.status(500).send(error);
+                    } else {
+                        res.send(data);
+                    }
+                })
 		});
 
     function isAuthenticated(req, res, next) {

@@ -3,7 +3,8 @@ angular.module('WeddingApp').factory('AdminPanelService', [
     ($http, toastr) => {
 
         return {
-            generateAccessCode: generateAccessCode
+            generateAccessCode: generateAccessCode,
+            getAllUsers: getAllUsers
         };
 
         function generateAccessCode() {
@@ -13,6 +14,19 @@ angular.module('WeddingApp').factory('AdminPanelService', [
                         resolve(result);
                     })
                     .error(error => {
+                        reject(error);
+                    });
+            });
+        }
+
+        function getAllUsers() {
+            return new Promise((resolve, reject) => {
+                $http.get('/admin/users')
+                    .success((result) => {
+                        resolve(result);
+                    })
+                    .error(error => {
+                        console.log(error);
                         reject(error);
                     });
             });

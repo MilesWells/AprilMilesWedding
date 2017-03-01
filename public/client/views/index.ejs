@@ -28,6 +28,7 @@
 					<li ng-if="user"><a href="#/profile"><i class="fa fa-user"></i> <span ng-bind="user.Name"></span></a></li>
 					<li ng-if="user"><a href="#/requests/songs"><i class="fa fa-music"></i> Song Requests</a></li>
 					<li ng-if="user.isAdmin"><a href="#/blog/new"><i class="fa fa-pencil-square-o"></i> New Blog Post</a></li>
+					<li ng-if="user.isAdmin"><a href="#/admin"><i class="fa fa-cog"></i> Admin Panel</a></li>
 					<li ng-if="user"><a href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
 					<li ng-if="!user"><a href="#/login"><i class="fa fa-sign-in"></i> Login</a></li>
 				</ul>

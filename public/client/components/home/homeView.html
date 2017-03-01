@@ -30,7 +30,7 @@
             <h1>Our Wedding Blog</h1>
 
             <div class="well well-sm" ng-repeat="post in blogPosts | orderBy: '-createdAt'">
-                <h2 style="float: left;">{{ post.BlogTitle }}</h2>
+                <h2 style="float: left;">{{ post.BlogTitle }} <i class="fa fa-trash-o fa-fw" ng-if="user.isAdmin" confirmed-click="deleteBlogPost(post.BlogPostId)" ng-confirm-click="Are you sure you want to delete this post?"></i></h2>
                 <span style="float: right; font-style: italic;">Posted on {{ post.createdAt | date:"MMM d, yyyy 'at' h:mm a" }}</span>
                 <div style="clear: both"></div>
                 <span ng-bind-html="post.BlogHtml"></span>

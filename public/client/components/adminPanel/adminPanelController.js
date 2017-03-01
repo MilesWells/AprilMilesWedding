@@ -3,6 +3,10 @@ angular.module('WeddingApp')
         $scope.user = $rootScope.getUser();
         $scope.newCodes = [];
         $scope.numberOfCodes = 1;
+        $scope.users = [];
+        $scope.rsvps = 0;
+        $scope.plusOnes = 0;
+        let self = this;
 
         $scope.generateCodes = () => {
             let promises = [];
@@ -19,4 +23,25 @@ angular.module('WeddingApp')
                     toastr.error('Failed to generate access codes');
                 });
         };
+
+        self.init = () => {
+            AdminPanelService.getAllUsers()
+                .then(users => {
+                    $scope.users = users.Items;
+
+                    $scope.rsvps = users.Items.filter(user => {
+                        return user.Rsvp;
+                    }).length;
+
+                    $scope.plusOnes = users.Items.filter(user => {
+                        return user.PlusOne;
+                    }).length;
+
+                    $scope.$apply();
+                }, () => {
+                    toastr.error('Unable to get user list');
+                });
+        };
+
+        self.init();
     });
