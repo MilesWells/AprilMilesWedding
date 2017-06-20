@@ -119,6 +119,9 @@ let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', '
                 templateUrl: '/components/register/registerView.html',
                 controller: 'RegisterCtrl'
             })
+            .when('/help', {
+                templateUrl: '/components/help/helpView.html'
+            })
             .otherwise({
                 redirectTo: '/'
             });

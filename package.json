@@ -21,6 +21,7 @@
     "passport-local": "~0.1.6",
     "passport-twitter": "~1.0.2",
     "path": "^0.12.7",
+    "textangular": "^1.5.16",
     "uuid": "^2.0.3"
   }
 }
