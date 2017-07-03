@@ -34,6 +34,7 @@
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
+					<li ng-if="user"><a href="#/help"><i class="fa fa-life-bouy"></i> Help</a></li>
 					<li ng-if="user"><a href="#/profile"><i class="fa fa-user"></i> <span ng-bind="user.Name"></span></a></li>
 					<li ng-if="user"><a href="#/requests/songs"><i class="fa fa-music"></i> Song Requests</a></li>
 					<li ng-if="user"><a href="https://www.HotelPlanner.com/EventPage3764802" target="_blank"><i class="fa fa-hotel"></i> Book Hotel</a></li>

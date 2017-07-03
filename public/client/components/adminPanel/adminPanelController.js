@@ -6,6 +6,7 @@ angular.module('WeddingApp')
         $scope.users = [];
         $scope.rsvps = 0;
         $scope.plusOnes = 0;
+        $scope.rsvpNos = 0;
         let self = this;
 
         $scope.generateCodes = () => {
@@ -35,6 +36,10 @@ angular.module('WeddingApp')
 
                     $scope.plusOnes = users.Items.filter(user => {
                         return user.PlusOne;
+                    }).length;
+
+                    $scope.rsvpNos = users.Items.filter(user => {
+                        return !user.Rsvp;
                     }).length;
 
                     $scope.$apply();
