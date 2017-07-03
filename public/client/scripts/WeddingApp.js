@@ -3,7 +3,7 @@
 /**********************************************************************
  * Angular Application
  **********************************************************************/
-let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', 'toastr', 'textAngular'])
+let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', 'toastr', 'textAngular', 'cycleGallery'])
     .config(($routeProvider, $locationProvider, $httpProvider) => {
         //================================================
         // Check if the user is connected
