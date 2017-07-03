@@ -25,8 +25,8 @@ angular.module('WeddingApp')
         });
 
         $scope.logout = function() {
-            $http.post('/logout', {})
-                .success(() => {
+            $http.get('/logout')
+                .then(user => {
                     $rootScope.setUser(null);
 
                     $location.url('/');

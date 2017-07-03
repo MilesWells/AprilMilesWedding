@@ -49,11 +49,12 @@ module.exports = function(app, passport) {
 	});
 
 	// logout route
-	app.post('/logout', (req, res) => {
-		req.logout();
-		req.session.destroy( err => {
+	app.get('/logout', (req, res) => {
+		req.session.destroy(err => {
             if (err) { return next(err); }
-            res.send(200);
+
+            req.logout();
+            res.redirect('/')
         });
 	});
 

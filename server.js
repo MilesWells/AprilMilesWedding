@@ -22,7 +22,7 @@ app.configure(() => {
 	app.set('view engine', 'ejs');
 
 	// required for passport
-	app.use(express.session({ secret: 'fuckindynamoyo' })); // session secret
+	app.use(express.session({ secret: 'fuckindynamoyo', resave: false, unset: 'destroy' })); // session secret
 	app.use(passport.initialize());
 	app.use(passport.session()); // persistent login sessions
 
