@@ -4,28 +4,19 @@
 <html ng-app="WeddingApp" class="full">
 <head>
 	<title>April and Miles Wedding</title>
-	<link rel="stylesheet" href="/scripts/styles/angular-cycle-gallery.min.css" type="text/css"> <!-- angular-cycle -->
 	<link rel="stylesheet" href="/scripts/styles/bootstrap.min.css">
 	<link rel="stylesheet" href="/scripts/styles/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css"> <!-- load toastr -->
 	<link rel="stylesheet" href="/scripts/styles/textAngular.css" type="text/css"><!-- load textAngular -->
-	<link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet"> <!-- custom font -->
+	<link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet"> <!-- <custom font -->
 
 	<!-- Custom Styles -->
 	<link rel="stylesheet" href="/scripts/styles/main.css">
 </head>
 
 <body ng-controller="HomeCtrl" ng-class="{'landing-bg': !showNavBar}">
-
-<div ng-if="!showNavBar" cycle-gallery="" gallery-init="onGalleryInit" class="gallery-wrapper" config-animation-time="700">
-	<div cycle-gallery-holder="" class="gallery-slider">
-		<div gallery-repeater="photo in photos" ng-style="{'background-image':'url({{photo.path}})'}" class="gallery-item"></div>
-	</div>
-	<button gallery-button="animateNext" class="action-button next animate">Animate next</button>
-	<button gallery-button="animatePrev" class="action-button prev animate">Animate prev</button>
-</div>
-
 <div class="container-fluid">
+
 	<div class="row" ng-if="showNavBar">
 		<nav class="navbar navbar-default">
 			<div class=" col-sm-10 col-sm-offset-1">
@@ -37,7 +28,7 @@
 					<li ng-if="user"><a href="#/help"><i class="fa fa-life-bouy"></i> Help</a></li>
 					<li ng-if="user"><a href="#/profile"><i class="fa fa-user"></i> <span ng-bind="user.Name"></span></a></li>
 					<li ng-if="user"><a href="#/requests/songs"><i class="fa fa-music"></i> Song Requests</a></li>
-					<li ng-if="user"><a href="https://www.HotelPlanner.com/EventPage3764802" target="_blank"><i class="fa fa-hotel"></i> Book Hotel</a></li>
+					<li ng-if="user"><a href="#/hotel"><i class="fa fa-hotel"></i> Book Hotel</a></li>
 					<li ng-if="user.isAdmin"><a href="#/blog/new"><i class="fa fa-pencil-square-o"></i> New Blog Post</a></li>
 					<li ng-if="user.isAdmin"><a href="#/admin"><i class="fa fa-cog"></i> Admin Panel</a></li>
 					<li ng-if="user"><a href="https://www.amazon.com/wedding/april-zaetz-miles-wells-cary-september-2017/registry/2ONQSJJRTSVSM" target="_blank"><i class="fa fa-amazon"></i> Registry</a></li>
@@ -64,7 +55,6 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular-sanitize.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/textAngular/1.5.0/textAngular.min.js'></script>
 <script src="https://use.fontawesome.com/4f1dae15ee.js"></script>
-<script src="/scripts/angular-cycle-gallery.js"></script>
 <script src="/scripts/WeddingApp.js"></script>
 
 <!-- Directives -->

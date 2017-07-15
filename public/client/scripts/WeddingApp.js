@@ -3,7 +3,7 @@
 /**********************************************************************
  * Angular Application
  **********************************************************************/
-let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', 'toastr', 'textAngular', 'cycleGallery'])
+let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', 'toastr', 'textAngular'])
     .config(($routeProvider, $locationProvider, $httpProvider) => {
         //================================================
         // Check if the user is connected
@@ -121,6 +121,9 @@ let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', '
             })
             .when('/help', {
                 templateUrl: '/components/help/helpView.html'
+            })
+            .when('/hotel', {
+                templateUrl: '/components/hotel/hotelView.html'
             })
             .otherwise({
                 redirectTo: '/'

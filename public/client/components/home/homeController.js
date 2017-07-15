@@ -1,12 +1,7 @@
 angular.module('WeddingApp')
-    .controller('HomeCtrl', function ($scope, $rootScope, $location, $http, $interval, BlogPostService, Finder) {
+    .controller('HomeCtrl', function ($scope, $rootScope, $location, $http, BlogPostService) {
         let self = this;
         $scope.user = $rootScope.getUser();
-
-        $scope.photos = [
-            { path: 'images/bg-splash.png' },
-            { path: 'images/newimgweddingsite.jpeg' }
-        ];
 
         self.refreshBlog = function() {
             BlogPostService.getAllBlogPosts()
@@ -31,7 +26,7 @@ angular.module('WeddingApp')
 
         $scope.logout = function() {
             $http.get('/logout')
-                .then(() => {
+                .then(user => {
                     $rootScope.setUser(null);
 
                     $location.url('/');
@@ -44,12 +39,6 @@ angular.module('WeddingApp')
                 .then(() => {
                     self.refreshBlog()
                 });
-        };
-
-        $scope.onGalleryInit = function(gallery) {
-            $interval(function() {
-                gallery.animateNext();
-            }, 5000);
         };
 
         self.refreshBlog();
