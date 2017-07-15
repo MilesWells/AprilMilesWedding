@@ -2,13 +2,6 @@ angular.module('WeddingApp')
     .controller('LoginCtrl', function ($scope, $rootScope, $http, $location) {
         $scope.message = '';
 
-        $http.get('/loggedin', {})
-            .success(result => {
-                if (result.UserId) {
-                    $location.url('/profile');
-                }
-            });
-
         // Register the login() function
         $scope.login = function() {
             $scope.hasActiveRequest = true;

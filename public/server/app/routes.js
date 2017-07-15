@@ -54,7 +54,8 @@ module.exports = function(app, passport) {
             if (err) { return next(err); }
 
             req.logout();
-            res.redirect('/')
+            res.cookie("express.sid", "", { expires: new Date() });
+            res.send(200);
         });
 	});
 
