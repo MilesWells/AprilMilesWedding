@@ -7,9 +7,8 @@
     <div class="col-sm-8 col-sm-offset-2">
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2">
-                <span ng-click="collapsed = !collapsed" class="collapsed btn-collapse pointer-cursor" data-toggle="collapse" data-target="#songRequestForm">
-                    <i class="fa fa-plus" ng-if="collapsed"></i>
-                    <i class="fa fa-minus" ng-if="!collapsed"></i>
+                <span ng-click="this.collapsed = !this.collapsed" class="collapsed btn-collapse pointer-cursor" data-toggle="collapse" data-target="#songRequestForm">
+                    <span ng-class="this.collapsed ? 'glyphicon-plus-sign' : 'glyphicon-minus-sign'" class="glyphicon"></span>
                     Add Song Request
                 </span>
                 <form name="songRequestForm" ng-submit="this.addSongRequest()" role="form" id="songRequestForm" class="collapse" novalidate>
