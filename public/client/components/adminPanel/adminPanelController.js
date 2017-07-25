@@ -30,15 +30,19 @@ angular.module('WeddingApp')
                 .then(users => {
                     $scope.users = users.Items;
 
-                    $scope.rsvps = users.Items.filter(user => {
+                    $scope.users = $scope.users.filter(user => {
+                        return !user.isAdmin;
+                    });
+
+                    $scope.rsvps = $scope.users.filter(user => {
                         return user.Rsvp;
                     }).length;
 
-                    $scope.plusOnes = users.Items.filter(user => {
+                    $scope.plusOnes = $scope.users.filter(user => {
                         return user.PlusOne;
                     }).length;
 
-                    $scope.rsvpNos = users.Items.filter(user => {
+                    $scope.rsvpNos = $scope.users.filter(user => {
                         return !user.Rsvp;
                     }).length;
 
