@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <div class="row repeat-header col-sm-10 col-sm-offset-1" style="text-align: center;">
+        <div class="row repeat-header col-sm-10 col-sm-offset-1 table-bordered" style="margin-top: 10px;">
             <div class="col-sm-4">
                 <span class="pointer-cursor" ng-click="sortType = 'SongName'; sortReverse = !sortReverse">
                     Song Title
@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <div class="row" ng-repeat="request in songRequests | orderBy:sortType:sortReverse | filter:searchQuery">
+        <div class="row col-sm-10 col-sm-offset-1 table-bordered" ng-repeat="request in songRequests | orderBy:sortType:sortReverse | filter:searchQuery">
             <div class="col-sm-4">{{ request.SongName }}</div>
             <div class="col-sm-3">{{ request.Artist }}</div>
             <div class="col-sm-3">{{ request.Album }}</div>

@@ -97,3 +97,7 @@ input[type=number]::-webkit-outer-spin-button {
 .text-red {
   color:red;
 }
+
+.table-bordered {
+  padding: 5px;
+}
