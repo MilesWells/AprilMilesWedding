@@ -2,14 +2,14 @@ const Dynamo = require('../config/dynamoDB');
 const uuid = require('uuid');
 
 module.exports = function(app, passport) {
-    app.all('*', (req, res, next) => {
-        if (req.get('x-forwarded-proto') == 'https') {
-            return next();
-        }
-
-        res.set('x-forwarded-proto', 'https');
-        res.redirect(`https://${req.host}${req.url}`);
-    });
+    // app.all('*', (req, res, next) => {
+    //     if (req.get('x-forwarded-proto') == 'https') {
+    //         return next();
+    //     }
+    //
+    //     res.set('x-forwarded-proto', 'https');
+    //     res.redirect(`https://${req.host}${req.url}`);
+    // });
 
 	// index route
 	app.get('/', (req, res) => {
@@ -34,6 +34,32 @@ module.exports = function(app, passport) {
 	// register route
 	app.post('/register', passport.authenticate('local-register'), (req, res) => {
 		res.send(req.user);
+	});
+
+    // forgot password route
+    app.post('/resetpassword', (req, res) => {
+
+    });
+
+	// forgot password route
+	app.post('/forgotpassword', (req, res) => {
+		let email = req.body.username;
+		let accessCode = req.body.accessCode;
+        Dynamo.User
+            .scan()
+            .loadAll()
+            .exec((error, data) => {
+                if(error) {
+                    return res.status(500).send(error);
+                } else {
+                	data = data.Items.filter(user => user.attrs.Email == email && user.attrs.InvitationCode == accessCode);
+                    if(data.length === 1) {
+                    	return res.send(200);
+                    }
+
+                    return res.send(400);
+                }
+            })
 	});
 
 	// update user info

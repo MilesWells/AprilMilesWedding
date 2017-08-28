@@ -115,6 +115,10 @@ let app = angular.module('WeddingApp', ['ngResource', 'ngRoute', 'ngMessages', '
                 templateUrl: '/components/login/loginView.html',
                 controller: 'LoginCtrl'
             })
+            .when('/forgotpassword', {
+                templateUrl: '/components/forgotPassword/forgotPasswordView.html',
+                controller: 'ForgotPasswordCtrl'
+            })
             .when('/register', {
                 templateUrl: '/components/register/registerView.html',
                 controller: 'RegisterCtrl'
