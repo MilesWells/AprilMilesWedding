@@ -11,7 +11,11 @@ angular.module('WeddingApp')
                 accessCode: $scope.accessCode
             })
             .success(() => {
-
+                localStorage.setItem('resetPassword', JSON.stringify({
+                    email: $scope.email,
+                    accessCode: $scope.accessCode
+                }));
+                $location.url('/resetpassword');
             })
             .error(() => {
                 // Error: authentication failed

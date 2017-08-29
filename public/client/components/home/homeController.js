@@ -34,7 +34,6 @@ angular.module('WeddingApp')
         };
 
         $scope.deleteBlogPost = function(postId) {
-            console.log(postId);
             BlogPostService.deleteBlogPost(postId)
                 .then(() => {
                     self.refreshBlog()

@@ -1,15 +1,16 @@
 const Dynamo = require('../config/dynamoDB');
 const uuid = require('uuid');
+const bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(app, passport) {
-    // app.all('*', (req, res, next) => {
-    //     if (req.get('x-forwarded-proto') == 'https') {
-    //         return next();
-    //     }
-    //
-    //     res.set('x-forwarded-proto', 'https');
-    //     res.redirect(`https://${req.host}${req.url}`);
-    // });
+    app.all('*', (req, res, next) => {
+        if (req.get('x-forwarded-proto') == 'https') {
+            return next();
+        }
+
+        res.set('x-forwarded-proto', 'https');
+        res.redirect(`https://${req.host}${req.url}`);
+    });
 
 	// index route
 	app.get('/', (req, res) => {
@@ -36,9 +37,46 @@ module.exports = function(app, passport) {
 		res.send(req.user);
 	});
 
-    // forgot password route
+    // reset password route
     app.post('/resetpassword', (req, res) => {
+        let email = req.body.username;
+        let accessCode = req.body.accessCode;
+        let password = req.body.password;
+        let confirmPassword = req.body.confirmPassword;
 
+        //check if passwords match
+        if(confirmPassword != password) {
+            return res.status(400).send('Passwords must match.');
+        }
+
+        new Promise((resolve, reject) => {
+            Dynamo.User
+                .scan()
+                .loadAll()
+                .exec((error, data) => {
+                    if (error) {
+                        return reject(error);
+                    } else {
+                        data = data.Items.filter(user => user.attrs.Email == email && user.attrs.InvitationCode == accessCode);
+                        if (data.length === 1) {
+                            return resolve(data[0].attrs);
+                        }
+
+                        return reject('Invalid email/access code combination.')
+                    }
+                });
+        }).then((user) => {
+        	user.Password = bcrypt.hashSync(password);
+            Dynamo.User
+                .update(user, (error, user) => {
+                    if(error) {
+                        return res.status(500).send(error);
+                    }
+
+                    res.status(200).send();
+                });
+		})
+		.catch(message => res.status(500).send(message));
     });
 
 	// forgot password route
@@ -59,7 +97,7 @@ module.exports = function(app, passport) {
 
                     return res.send(400);
                 }
-            })
+            });
 	});
 
 	// update user info
@@ -94,7 +132,6 @@ module.exports = function(app, passport) {
 			Dynamo.SongRequest
 				.create(songRequest, (error, songRequest) => {
 					if(error) {
-						console.log(error);
 						res.status(500).send(error);
 					} else {
 						res.send(songRequest);
@@ -119,7 +156,6 @@ module.exports = function(app, passport) {
                 .usingIndex('UserId-index')
                 .exec((error, data) => {
                     if(error) {
-                    	console.log(error);
                         res.status(500).send(error);
                     } else {
                         res.send(data);
@@ -146,7 +182,6 @@ module.exports = function(app, passport) {
             Dynamo.BlogPost
                 .create(blogPost, (error, blogPost) => {
                     if(error) {
-                        console.log(error);
                         res.status(500).send(error);
                     } else {
                         res.send(blogPost);
@@ -171,7 +206,6 @@ module.exports = function(app, passport) {
                 .usingIndex('BlogPostId')
                 .exec((error, data) => {
                     if(error) {
-                        console.log(error);
                         res.status(500).send(error);
                     } else {
                         res.send(data);
@@ -210,7 +244,6 @@ module.exports = function(app, passport) {
 			Dynamo.InvitationCode
 				.create(newCode, (error, code) => {
                 if(error) {
-                    console.log(error);
                     res.status(500).send(error);
                 } else {
                     res.send(code);
