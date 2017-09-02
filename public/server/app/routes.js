@@ -2,14 +2,14 @@ const Dynamo = require('../config/dynamoDB');
 const uuid = require('uuid');
 
 module.exports = function(app, passport) {
-    // app.all('*', (req, res, next) => {
-    //     if (req.get('x-forwarded-proto') == 'https') {
-    //         return next();
-    //     }
-    //
-    //     res.set('x-forwarded-proto', 'https');
-    //     res.redirect(`https://${req.host}${req.url}`);
-    // });
+    app.all('*', (req, res, next) => {
+        if (req.get('x-forwarded-proto') == 'https') {
+            return next();
+        }
+
+        res.set('x-forwarded-proto', 'https');
+        res.redirect(`https://${req.host}${req.url}`);
+    });
 
 	// index route
 	app.get('/', (req, res) => {

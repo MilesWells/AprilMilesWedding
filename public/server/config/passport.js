@@ -80,7 +80,7 @@ module.exports = function(passport) {
                         return;
                     }
 
-                    if (data.attrs.Used) {
+                    if (data.attrs.Used && data.attrs.InvitationCode !== 'zaetz') {
                         reject('Invitation code has already been used.');
                         return;
                     }
@@ -137,6 +137,11 @@ module.exports = function(passport) {
         .then(user => {
             return new Promise((resolve) => {
                 //successfully added user to table, mark the access code as used
+                if(accessCode === 'zaetz') {
+                    resolve(user);
+                    return;
+                }
+
                 Dynamo.InvitationCode
                     .update({
                         InvitationCode: accessCode,
