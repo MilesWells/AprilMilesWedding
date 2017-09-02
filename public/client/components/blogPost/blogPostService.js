@@ -40,7 +40,6 @@ angular.module('WeddingApp').factory('BlogPostService', [
         }
 
         function deleteBlogPost(blogPostId) {
-            console.log(blogPostId);
             return $http.delete('/blogPosts/' + blogPostId)
                 .success(() => {
                     toastr.success('Your blog post has been removed!');
